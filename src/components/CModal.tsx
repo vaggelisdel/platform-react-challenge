@@ -3,46 +3,42 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Breed, CatItem } from "../types";
 import { Modal} from "react-bootstrap";
+import { RootState } from "../redux/types";
+import { HomepageActionCreators } from "../pages/Homepage/ducks";
+import exp from "node:constants";
 
 interface CatModalProps {
-    catId: string | null;
-    onOpenChange: (open: boolean) => void;
+    catDetails: CatItem | null;
+    open: boolean;
+    setOpen: (open: boolean) => void;
 }
 
-const CModal = ({ catId, onOpenChange }: any) => {
-
-    const [cat, setCat] = useState<CatItem | null>({
-        id: "1", url: 'https://t3.ftcdn.net/jpg/01/04/40/06/360_F_104400672_zCaPIFbYT1dXdzN85jso7NV8M6uwpKtf.jpg', width: 400, height: 400, breeds: []
-    });
+const CModal = ({ catDetails, open, setOpen }: CatModalProps) => {
 
     const handleShare = () => {
-        if (!cat) return;
+        if (!catDetails?.id) return;
         navigator.clipboard.writeText(window.location.href);
         alert("Link copied to clipboard!");
     };
 
 
 
-    if (!catId) return null;
-
-    const isFavorite = (imageId: string): boolean => {
-        return false;
-    };
+    if (!catDetails?.id) return null;
 
     const handleFavoriteToggle = () => {
         
     };
 
     return (
-        <Modal show={!!catId} onHide={() => onOpenChange(false)} size="xl" centered>
+        <Modal show={open} onHide={() => setOpen(false)} size="xl" centered>
             <Modal.Body className="d-flex flex-column flex-md-row p-0" style={{ height: "60vh" }}>
                 {/* Left side */}
                 <div className="d-flex justify-content-center align-items-center bg-dark w-100">
-                    <i className="bi bi-x-lg text-black position-absolute top-0 end-0 p-3" onClick={() => onOpenChange(false)}/>
-                    {cat && (
+                    <i className="bi bi-x-lg text-black position-absolute top-0 end-0 p-3" onClick={() => setOpen(false)}/>
+                    {catDetails && (
                         <img
-                            src={cat.url}
-                            alt={cat?.breeds?.length > 0 ? cat?.breeds[0].name : "A default cat"}
+                            src={catDetails.url}
+                            alt={catDetails?.breeds?.length > 0 ? catDetails?.breeds[0].name : "A default cat"}
                             className={'h-100 w-100'}
                             style={{objectFit: 'cover'}}
                         />
@@ -50,10 +46,10 @@ const CModal = ({ catId, onOpenChange }: any) => {
                 </div>
                 {/* Right side*/}
                 <div className="w-100 w-md-40 p-4 overflow-auto">
-                    {cat ? (
+                    {catDetails ? (
                         <div>
                             <h2 className="h4 fw-bold">
-                                {cat.breeds?.length > 0 ? cat.breeds[0].name : "Default Cat"}
+                                {catDetails.breeds?.length > 0 ? catDetails.breeds[0].name : "Default Cat"}
                             </h2>
 
                             <div className="d-flex gap-2 my-3">
@@ -71,9 +67,9 @@ const CModal = ({ catId, onOpenChange }: any) => {
                                 </button>
                             </div>
 
-                            {cat.breeds?.length > 0 && <BreedData breed={cat.breeds[0]} />}
+                            {catDetails.breeds?.length > 0 && <BreedData breed={catDetails.breeds[0]} />}
 
-                            {!cat.breeds?.length && (
+                            {!catDetails.breeds?.length && (
                                 <p className="text-muted fst-italic">No breed info available for this cat.</p>
                             )}
 
@@ -81,11 +77,11 @@ const CModal = ({ catId, onOpenChange }: any) => {
                             <h5 className="text-muted">Image Info</h5>
                             <div className="row text-sm">
                                 <div className="col-6">Width</div>
-                                <div className="col-6 text-end fw-medium">{cat.width}px</div>
+                                <div className="col-6 text-end fw-medium">{catDetails.width}px</div>
                                 <div className="col-6">Height</div>
-                                <div className="col-6 text-end fw-medium">{cat.height}px</div>
+                                <div className="col-6 text-end fw-medium">{catDetails.height}px</div>
                                 <div className="col-6">ID</div>
-                                <div className="col-6 text-end text-muted text-truncate">{cat.id}</div>
+                                <div className="col-6 text-end text-muted text-truncate">{catDetails.id}</div>
                             </div>
                         </div>
                     ) : (

@@ -10,13 +10,19 @@ import { RootState } from "../../redux/types";
 const Homepage = (props: any) => {
   const navigate = useNavigate();
 
-  const [selectedCatId, setSelectedCatId] = useState<string | null>(null);
+  const { data: { randomCats = [], page = 1} = {}, details } = props;
 
-  const { randomCats = [], page } = props?.data;
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     props.fetchRandomCats(10, 1);
   }, []);
+
+  useEffect(() => {
+    if (details) {
+      setOpen(true);
+    }
+  }, [details]);
 
 
   const handleLoadMore = () => {
@@ -24,13 +30,14 @@ const Homepage = (props: any) => {
   };
 
   const handleClick = (cat: CatItem) => {
-    setSelectedCatId(cat.id);
+    props.fetchSelectedCatDetails(cat.id);
     navigate(`/?id=${cat.id}`, { replace: true });
   };
 
   const handleCloseModal = () => {
-    setSelectedCatId(null);
+    setOpen(false);
     navigate("/", { replace: true });
+    props.resetCatDetails("catDetails");
   };
 
   return (
@@ -50,10 +57,9 @@ const Homepage = (props: any) => {
         />
 
         <CModal
-          catId={selectedCatId}
-          onOpenChange={(open: boolean) => {
-            if (!open) handleCloseModal();
-          }}
+          catDetails={details}
+          open={open}
+          setOpen={handleCloseModal}
         />
       </div>
     </div>
@@ -63,12 +69,15 @@ const Homepage = (props: any) => {
 const mapDispatchToProps: any = (dispatch: any) => {
   return {
     fetchRandomCats: (limit: number, page: number) => dispatch(HomepageActionCreators.fetchRandomCatsRequested(limit, page)),
+    fetchSelectedCatDetails: (catId: string) => dispatch(HomepageActionCreators.fetchSelectedCatDetailsRequested(catId)),
+    resetCatDetails: (slice: string) => dispatch(HomepageActionCreators.resetApiData(slice))
   };
 };
 
 export const mapStateToProps = (state: RootState) => {
   return {
     data: state.data.cats,
+    details: state.data.catDetails
   };
 };
 

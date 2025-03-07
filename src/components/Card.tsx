@@ -28,8 +28,6 @@ const Card = ({ cat, onClick }: CatCardProps) => {
       className="cat-image-container w-100 h-100 position-relative" 
       onClick={handleClick}
     >
-      <div className={"position-absolute top-0 start-0 w-100 h-100 bg-light opacity-0"}/>
-      
       <img
         src={cat.url}
         className="cat-image"

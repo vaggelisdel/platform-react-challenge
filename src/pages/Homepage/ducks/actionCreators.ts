@@ -26,9 +26,45 @@ function fetchRandomCatsFailed() {
   };
 }
 
+function fetchSelectedCatDetailsRequested(catId: string) {
+  return <const>{
+    type: ActionNames.FETCH_SELECTED_CAT_DETAILS_REQUESTED,
+    payload: {catId},
+  };
+}
+
+function fetchSelectedCatDetailsSucceeded(data:any) {
+  return <const>{
+    type: ActionNames.FETCH_SELECTED_CAT_DETAILS_SUCCEEDED,
+    payload: {data},
+  };
+}
+
+function fetchSelectedCatDetailsFailed() {
+  return <const>{
+    type: ActionNames.FETCH_SELECTED_CAT_DETAILS_FAILED,
+    payload:  {},
+  };
+}
+
+function resetApiData(slice = 'all') {
+  return <const>{
+    type: ActionNames.COMMON_API_RESET_DATA,
+    payload: {
+      slice,
+    },
+  };
+}
+
 
 export default {
   fetchRandomCatsRequested,
   fetchRandomCatsSucceeded,
-  fetchRandomCatsFailed
+  fetchRandomCatsFailed,
+
+  fetchSelectedCatDetailsRequested,
+  fetchSelectedCatDetailsSucceeded,
+  fetchSelectedCatDetailsFailed,
+
+  resetApiData
 };
