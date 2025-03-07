@@ -4,11 +4,15 @@ import Homepage from "./pages/Homepage";
 import Breeds from "./pages/Breeds";
 import Favorites from "./pages/Favorites";
 import ErrorPage from "./pages/ErrorPage";
+import Header from "./components/Header/Header";
+
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const App = () => (
   <BrowserRouter>
     <div>
-      <h1>Header</h1>
+      <Header/>
       <main>
         <Routes>
           <Route path="/" element={<Homepage />} />
