@@ -3,12 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import HeaderLink from "./HeaderLink";
 
 const Header = () => {
-  const location = useLocation();
-
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
-
   return (
     <header className="sticky-top bg-white border-bottom">
       <div className="container d-flex justify-content-between align-items-center py-3">
@@ -18,7 +12,7 @@ const Header = () => {
               <span className="fs-3">😺</span>
             </div>
           </div>
-          <span className="ms-2 fw-semibold fs-5">Purfect Gallery</span>
+          <span className="ms-2 fw-semibold fs-5">Cat Lover</span>
         </Link>
 
         <nav>
