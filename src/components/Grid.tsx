@@ -55,12 +55,6 @@ const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
             Load More
           </button>
         </div>
-      
-      {cats.length > 0 && (
-        <div className="text-center text-muted py-4">
-          The end of the list.
-        </div>
-      )}
     </div>
   );
 };
