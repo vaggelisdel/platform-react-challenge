@@ -15,7 +15,7 @@ const BreedList = ({ breeds, onBreedClick }: BreedCardProps) => {
       <div className="row g-4">
         {breeds.length > 0 &&
           breeds.map((breed: Breed) => (
-            <div key={breed.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div key={breed.id + Math.random()} className="col-12 col-sm-6 col-md-4 col-lg-3">
               <BreedListItem
                 breed={breed}
                 onClick={() => onBreedClick ? onBreedClick(breed) : undefined}
