@@ -29,7 +29,7 @@ const CModal = ({ catDetails, open, setOpen, toogleToFavorites, favorites }: Cat
         }else{
           setIsFavorite(false);
         }
-      }, [favorites]);
+      }, [favorites, catDetails]);
 
     const handleShare = () => {
         if (!catDetails?.id) return;

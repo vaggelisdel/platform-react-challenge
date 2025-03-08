@@ -54,6 +54,7 @@ const Homepage = (props: any) => {
           cats={randomCats}
           onLoadMore={handleLoadMore}
           onCatClick={handleClick}
+          showLoadMore={true}
         />
 
         <CModal

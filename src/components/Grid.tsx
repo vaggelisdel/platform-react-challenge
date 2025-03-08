@@ -5,11 +5,12 @@ import Card from "./Card";
 
 interface GridProps {
   cats: CatItem[];
-  onLoadMore: () => void;
+  showLoadMore?: boolean;
+  onLoadMore?: () => void;
   onCatClick?: (cat: CatItem) => void;
 }
 
-const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
+const Grid = ({ cats, showLoadMore = false, onLoadMore, onCatClick }: GridProps) => {
   const [columns, setColumns] = useState(4);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -39,7 +40,7 @@ const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {cats.map((cat) => (
           <div key={cat.id} className="col">
-            <Card 
+            <Card
               cat={cat}
               onClick={() => onCatClick ? onCatClick(cat) : undefined}
             />
@@ -47,14 +48,17 @@ const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
         ))}
       </div>
 
+      {showLoadMore && (
         <div className="d-flex justify-content-center py-4">
-          <button 
+          <button
             onClick={onLoadMore}
             className="btn btn-primary px-4 py-2 rounded-pill shadow"
           >
             Load More
           </button>
         </div>
+      )}
+
     </div>
   );
 };
