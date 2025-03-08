@@ -33,7 +33,7 @@ const CModal = ({ catDetails, open, setOpen, toogleToFavorites, favorites }: Cat
 
     const handleShare = () => {
         if (!catDetails?.id) return;
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(window.location.href.replace('favorites/', '')); //replace favorites path if exist
     };
 
 
