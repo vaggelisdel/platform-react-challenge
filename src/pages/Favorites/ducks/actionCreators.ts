@@ -26,21 +26,8 @@ function toogleToFavoritesFailed() {
   };
 }
 
-
-function resetApiData(slice = 'all') {
-  return <const>{
-    type: ActionNames.COMMON_API_RESET_DATA,
-    payload: {
-      slice,
-    },
-  };
-}
-
-
 export default {
   toggleToFavoritesRequested,
   toogleToFavoritesSucceeded,
   toogleToFavoritesFailed,
-
-  resetApiData
 };

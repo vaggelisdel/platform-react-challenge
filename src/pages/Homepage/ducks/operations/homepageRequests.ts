@@ -14,7 +14,7 @@ function* fetchRandomCats(data:any): Iterator<any> {
   const { limit, page } = data.payload.data;
 
   try {
-    const response: any = yield call(Services.Api.Data.get, `/search?limit=${limit}&page=${page}&has_breeds=1`, {
+    const response: any = yield call(Services.Api.Data.get, `/images/search?limit=${limit}&page=${page}&has_breeds=1`, {
       params: {
       }
     });
@@ -35,7 +35,7 @@ function* fetchSelectedCatDetails(data:any): Iterator<any> {
   const { catId } = data.payload;
 
   try {
-    const response: any = yield call(Services.Api.Data.get, `/${catId}`, {
+    const response: any = yield call(Services.Api.Data.get, `/images/${catId}`, {
       params: {
       }
     });

@@ -39,3 +39,23 @@ code {
   padding: 0.75rem;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
 }
+
+.breed-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  background-color: white;
+  height: 100%;
+}
+
+.breed-card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em; /* Adjust based on font size */
+}

@@ -1,0 +1,11 @@
+const PREFIX = 'features/favorites';
+
+const ActionNames = {
+  FETCH_ALL_BREEDS_REQUESTED: `${PREFIX}/all_breeds/requested`,
+  FETCH_ALL_BREEDS_SUCCEEDED: `${PREFIX}/all_breeds/succeeded`,
+  FETCH_ALL_BREEDS_FAILED: `${PREFIX}/all_breeds/failed`,
+
+  COMMON_API_RESET_DATA: `${PREFIX}/common_api_reset_data`
+};
+
+export default ActionNames;
