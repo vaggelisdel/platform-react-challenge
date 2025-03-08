@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage/Homepage";
 import Breeds from "./pages/Breeds";
-import Favorites from "./pages/Favorites";
+import Favorites from "./pages/Favorites/Favorites";
 import ErrorPage from "./pages/ErrorPage";
 import Header from "./components/Header/Header";
 

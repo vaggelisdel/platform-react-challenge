@@ -76,8 +76,8 @@ const mapDispatchToProps: any = (dispatch: any) => {
 
 export const mapStateToProps = (state: RootState) => {
   return {
-    data: state.data.cats,
-    details: state.data.catDetails
+    data: state.data?.homepage?.cats!,
+    details: state?.data?.homepage?.catDetails!
   };
 };
 

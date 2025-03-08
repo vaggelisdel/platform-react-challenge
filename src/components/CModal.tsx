@@ -1,46 +1,57 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Breed, CatItem } from "../types";
-import { Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { RootState } from "../redux/types";
-import { HomepageActionCreators } from "../pages/Homepage/ducks";
-import exp from "node:constants";
+import { FavoritesActionCreators } from "../pages/Favorites/ducks";
+import { connect } from "react-redux";
 
 interface CatModalProps {
     catDetails: CatItem | null;
     open: boolean;
     setOpen: (open: boolean) => void;
+    toogleToFavorites: (cat: CatItem) => void;
+    favorites?: CatItem[]
 }
 
-const CModal = ({ catDetails, open, setOpen }: CatModalProps) => {
+const CModal = ({ catDetails, open, setOpen, toogleToFavorites, favorites }: CatModalProps) => {
+
+      const [isFavorite, setIsFavorite] = useState(false);
+    
+      const handleFavoriteClick = (cat: CatItem) => {
+        toogleToFavorites(cat);
+      };
+    
+      useEffect(() => {
+        if (favorites?.some((c: CatItem) => c.id === catDetails?.id)) {
+          setIsFavorite(true);
+        }else{
+          setIsFavorite(false);
+        }
+      }, [favorites]);
 
     const handleShare = () => {
         if (!catDetails?.id) return;
         navigator.clipboard.writeText(window.location.href);
-        alert("Link copied to clipboard!");
     };
-
 
 
     if (!catDetails?.id) return null;
 
-    const handleFavoriteToggle = () => {
-        
-    };
 
     return (
         <Modal show={open} onHide={() => setOpen(false)} size="xl" centered>
             <Modal.Body className="d-flex flex-column flex-md-row p-0" style={{ height: "60vh" }}>
                 {/* Left side */}
                 <div className="d-flex justify-content-center align-items-center bg-dark w-100">
-                    <i className="bi bi-x-lg text-black position-absolute top-0 end-0 p-3" onClick={() => setOpen(false)}/>
+                    <i className="bi bi-x-lg text-black position-absolute top-0 end-0 p-3" onClick={() => setOpen(false)} />
                     {catDetails && (
                         <img
                             src={catDetails.url}
                             alt={catDetails?.breeds?.length > 0 ? catDetails?.breeds[0].name : "A default cat"}
                             className={'h-100 w-100'}
-                            style={{objectFit: 'cover'}}
+                            style={{ objectFit: 'cover' }}
                         />
                     )}
                 </div>
@@ -54,10 +65,10 @@ const CModal = ({ catDetails, open, setOpen }: CatModalProps) => {
 
                             <div className="d-flex gap-2 my-3">
                                 <button
-                                    onClick={handleFavoriteToggle}
+                                    onClick={() => handleFavoriteClick(catDetails)}
                                     className={"btn btn-outline-secondary"}
                                 >
-                                    <i className="bi bi-heart me-2"/>
+                                    <i className={`bi ${isFavorite ? "bi-heart-fill text-danger" : "bi-heart"} me-2`} />
                                     Add to Favorites
                                 </button>
 
@@ -96,32 +107,43 @@ const CModal = ({ catDetails, open, setOpen }: CatModalProps) => {
 };
 
 const BreedData = ({ breed }: { breed: Breed }) => {
-  return (
-    <div className="space-y-4">
-      <p className="text-gray-700">{breed.description}</p>
+    return (
+        <div className="space-y-4">
+            <p className="text-gray-700">{breed.description}</p>
 
-      <div className="grid grid-cols-2 gap-y-2 text-sm">
-        <div className="font-medium">Temperament</div>
-        <div>{breed.temperament}</div>
+            <div className="grid grid-cols-2 gap-y-2 text-sm">
+                <div className="font-medium">Temperament</div>
+                <div>{breed.temperament}</div>
 
-        <div className="font-medium">Origin</div>
-        <div>{breed.origin}</div>
+                <div className="font-medium">Origin</div>
+                <div>{breed.origin}</div>
 
-        <div className="font-medium">Life Span</div>
-        <div>{breed.life_span} years</div>
+                <div className="font-medium">Life Span</div>
+                <div>{breed.life_span} years</div>
 
-        <div className="font-medium">Weight</div>
-        <div>{breed.weight.metric} kg</div>
-      </div>
+                <div className="font-medium">Weight</div>
+                <div>{breed.weight.metric} kg</div>
+            </div>
 
-      <Link
-        to={`/breeds?id=${breed.id}`}
-        className="inline-flex items-center mt-2 text-primary hover:text-primary/80 transition-colors"
-      >
-        <span>View all {breed.name} cats</span>
-      </Link>
-    </div>
-  );
+            <Link
+                to={`/breeds?id=${breed.id}`}
+                className="inline-flex items-center mt-2 text-primary hover:text-primary/80 transition-colors"
+            >
+                <span>View all {breed.name} cats</span>
+            </Link>
+        </div>
+    );
 };
 
-export default CModal;
+const mapDispatchToProps = (dispatch: any) => ({
+    toogleToFavorites: (cat: CatItem) => dispatch(FavoritesActionCreators.toggleToFavoritesRequested(cat))
+});
+
+export const mapStateToProps = (state: RootState) => {
+    return {
+        favorites: state.data?.favorites?.cats
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CModal);

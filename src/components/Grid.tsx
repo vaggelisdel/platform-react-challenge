@@ -40,7 +40,7 @@ const Grid = ({ cats, onLoadMore, onCatClick }: GridProps) => {
         {cats.map((cat) => (
           <div key={cat.id} className="col">
             <Card 
-              cat={cat} 
+              cat={cat}
               onClick={() => onCatClick ? onCatClick(cat) : undefined}
             />
           </div>
