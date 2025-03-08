@@ -35,9 +35,9 @@ const Favorites = (props: any) => {
     <div className="container py-5">
       <div className="mb-5">
         <div className="text-center mb-4">
-          <h1 className="display-5 fw-bold">Discover Cats</h1>
+          <h1 className="display-5 fw-bold">My Favorites</h1>
           <p className="text-muted mx-auto" style={{ maxWidth: '550px' }}>
-            Explore the cat's collection. Click on any image to see more details.
+            Explore my favorite cat collection. Click on any image to see more details.
           </p>
         </div>
 
