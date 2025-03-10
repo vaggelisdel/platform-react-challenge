@@ -32,6 +32,36 @@ function FetchAllBreeds(state = AllBreedsInitialState, action: any) {
       };
     }
 
+    default:
+      return state;
+  }
+}
+
+function BreedDetailsReducer(
+  state = {},
+  action: any
+) {
+  switch (action.type) {
+    case ActionNames.FETCH_SELECTED_BREED_DETAILS_REQUESTED: {
+      return {
+        ...state,
+        status: CONSTANTS.RESPONSE_STATUS.PENDING,
+      };
+    }
+
+    case ActionNames.FETCH_SELECTED_BREED_DETAILS_SUCCEEDED: {
+      return {
+        ...action.payload.data,
+        status: CONSTANTS.RESPONSE_STATUS.SUCCESS,};
+    }
+
+    case ActionNames.FETCH_SELECTED_BREED_DETAILS_FAILED: {
+      return {
+        ...action.payload.data,
+        status: CONSTANTS.RESPONSE_STATUS.FAILURE,
+      };
+    }
+
     case ActionNames.COMMON_API_RESET_DATA: {
       const slice = action.payload.slice;
       if (slice === 'breedDetails' || slice === 'all') {
@@ -48,6 +78,7 @@ function FetchAllBreeds(state = AllBreedsInitialState, action: any) {
 
 const BreedsReducer = combineReducers({
   list: FetchAllBreeds,
+  details: BreedDetailsReducer
 });
 
 export default BreedsReducer;

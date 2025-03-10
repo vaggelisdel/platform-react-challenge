@@ -6,11 +6,12 @@ import { connect } from 'react-redux';
 import { RootState } from "../../redux/types";
 import BreedList from "../../components/BreedList";
 import { BreedsActionCreators } from "./ducks";
+import BreedModal from "../../components/BreedModal";
 
 const Breeds = (props: any) => {
   const navigate = useNavigate();
 
-  const { data: { list = []} = {}, details } = props;
+  const { data: { list = []} = {}, details = {} } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -19,14 +20,22 @@ const Breeds = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (details) {
+    if (Object.keys(details).length > 0) {
       setOpen(true);
     }
   }, [details]);
 
   const handleClick = (breed: Breed) => {
+    props.fetchSelectedBreedDetails(breed.id);
     navigate(`/breeds/?id=${breed.id}`, { replace: true });
   };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+    navigate("/breeds", { replace: true });
+    props.resetCatDetails("breedDetails");
+  };
+
 
 
   return (
@@ -44,6 +53,11 @@ const Breeds = (props: any) => {
           onBreedClick={handleClick}
         />
 
+        <BreedModal
+          breedDetails={details}
+          open={open}
+          setOpen={handleCloseModal}
+        />
       </div>
     </div>
   );
@@ -52,13 +66,15 @@ const Breeds = (props: any) => {
 const mapDispatchToProps: any = (dispatch: any) => {
   return {
     fetchAllBreedsRequested: () => dispatch(BreedsActionCreators.fetchAllBreedsRequested()),
+    fetchSelectedBreedDetails: (breedId: string) => dispatch(BreedsActionCreators.fetchSelectedBreedDetailsRequested(breedId)),
     resetCatDetails: (slice: string) => dispatch(BreedsActionCreators.resetApiData(slice))
   };
 };
 
 export const mapStateToProps = (state: RootState) => {
   return {
-    data: state.data?.breeds?.list
+    data: state.data?.breeds?.list,
+    details: state?.data?.breeds?.details
   };
 };
 

@@ -10,7 +10,7 @@ import { RootState } from "../../redux/types";
 const Homepage = (props: any) => {
   const navigate = useNavigate();
 
-  const { data: { randomCats = [], page = 1} = {}, details } = props;
+  const { data: { randomCats = [], page = 1} = {}, details = {} } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -19,7 +19,7 @@ const Homepage = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (details) {
+    if (Object.keys(details).length > 0) {
       setOpen(true);
     }
   }, [details]);
